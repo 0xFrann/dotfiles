@@ -58,8 +58,12 @@ echo "Cursor: $CURSOR_THEME"
 for ITERMCOLORS in "$THEME_DIR"/*.itermcolors; do
     [ -f "$ITERMCOLORS" ] || continue
     PRESET_NAME="$(basename "$ITERMCOLORS" .itermcolors)"
-    open "$ITERMCOLORS"
-    echo "iTerm2: imported '$PRESET_NAME' (select it in Settings > Profiles > Colors > Color Presets)"
+    if /usr/libexec/PlistBuddy -c "Print ':Custom Color Presets:$PRESET_NAME'" ~/Library/Preferences/com.googlecode.iterm2.plist &>/dev/null; then
+        echo "iTerm2: '$PRESET_NAME' already imported"
+    else
+        open "$ITERMCOLORS"
+        echo "iTerm2: imported '$PRESET_NAME' (select it in Settings > Profiles > Colors > Color Presets)"
+    fi
     break
 done
 
