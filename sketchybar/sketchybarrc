@@ -184,9 +184,18 @@ sketchybar --add item front_app left \
     background.corner_radius=12 \
     --subscribe front_app front_app_switched
 
-sketchybar --add bracket left_bracket apple space.6 \
-    --set left_bracket background.color=0x5e000000 \
-    background.drawing=on \
-    background.height=28 \
-    background.corner_radius=12
+for mid in $(aerospace list-monitors | cut -c1); do
+    space_items=""
+    for sid in $(aerospace list-workspaces --monitor "$mid"); do
+        space_items+="space.$sid "
+    done
+    sketchybar --add bracket left_bracket_$mid apple $space_items \
+        --set left_bracket_$mid \
+        display=$mid \
+        background.color=0x5e000000 \
+        background.drawing=on \
+        background.height=28 \
+        background.corner_radius=12
+done
+
 sketchybar --update
