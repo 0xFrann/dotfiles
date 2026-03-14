@@ -5,4 +5,4 @@ export WHITE=0xffcdd6f4
 export BAR_COLOR=0xff1e1e2e
 export ITEM_BG_COLOR=0xff313244
 export ACCENT_COLOR=0xffcba6f7
-export BRACKET_BG_COLOR=0xaa181825
+export BRACKET_BG_COLOR=0xe0181825
