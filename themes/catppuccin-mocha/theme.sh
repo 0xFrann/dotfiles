@@ -11,3 +11,6 @@ BRACKET_BG_COLOR="0xaa181825"
 # Cursor / VSCode
 CURSOR_THEME="Catppuccin Mocha"
 CURSOR_EXTENSION="catppuccin.catppuccin-vsc"
+
+# Chrome
+CHROME_THEME_URL="https://chromewebstore.google.com/detail/bkkmolkhemgaeaeggcmfbghljjjoofoh"

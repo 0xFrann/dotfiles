@@ -11,3 +11,6 @@ BRACKET_BG_COLOR="0xaa2e3440"
 # Cursor / VSCode
 CURSOR_THEME="Nord"
 CURSOR_EXTENSION="arcticicestudio.nord-visual-studio-code"
+
+# Chrome
+CHROME_THEME_URL="https://chromewebstore.google.com/detail/abehfkkfjlplnjadfcjiflnejblfmmpj"

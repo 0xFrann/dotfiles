@@ -11,3 +11,6 @@ BRACKET_BG_COLOR="0xaa16161e"
 # Cursor / VSCode
 CURSOR_THEME="Tokyo Night"
 CURSOR_EXTENSION="enkia.tokyo-night"
+
+# Chrome
+CHROME_THEME_URL="https://chromewebstore.google.com/detail/enpfonmmpgoinjpglildebkaphbhndek"

@@ -63,5 +63,11 @@ for ITERMCOLORS in "$THEME_DIR"/*.itermcolors; do
     break
 done
 
+# --- Chrome ---
+if [ -n "${CHROME_THEME_URL:-}" ]; then
+    open "$CHROME_THEME_URL"
+    echo "Chrome: opened theme page (click 'Add to Chrome' if not installed)"
+fi
+
 wait 2>/dev/null
 echo "Done — switched to '$THEME'"

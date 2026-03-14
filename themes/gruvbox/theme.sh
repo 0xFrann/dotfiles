@@ -11,3 +11,6 @@ BRACKET_BG_COLOR="0xaa1d2021"
 # Cursor / VSCode
 CURSOR_THEME="Gruvbox Dark Medium"
 CURSOR_EXTENSION="jdinhlife.gruvbox"
+
+# Chrome
+CHROME_THEME_URL="https://chromewebstore.google.com/detail/omhkfakoeeehhlmjapbnoeogbpnpgmne"
