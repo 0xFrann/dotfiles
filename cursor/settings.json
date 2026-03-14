@@ -73,7 +73,7 @@
   "diffEditor.ignoreTrimWhitespace": false,
   "git.ignoreRebaseWarning": true,
   "typescript.preferences.importModuleSpecifier": "non-relative",
-  "workbench.colorTheme": "Material Theme Palenight",
+  "workbench.colorTheme": "Catppuccin Mocha",
   "colorHelper.formatsOrder": [],
   "workbench.iconTheme": "vscode-icons",
   "github.copilot.advanced": {},

@@ -1,4 +1,5 @@
 #!/bin/bash
+source "$CONFIG_DIR/colors.sh"
 
 workspace_icon() {
     case "$1" in
@@ -15,7 +16,7 @@ workspace_icon() {
 }
 ICON=$(workspace_icon "$1")
 if [ "$1" = "$FOCUSED_WORKSPACE" ]; then
-    sketchybar --set $NAME icon=$ICON label.color=0xffcba6f7 icon.color=0xffcba6f7
+    sketchybar --set $NAME icon=$ICON label.color=$ACCENT_COLOR icon.color=$ACCENT_COLOR
 else
-    sketchybar --set $NAME icon=$ICON label.color=0xffffffff icon.color=0xffffffff
+    sketchybar --set $NAME icon=$ICON label.color=$WHITE icon.color=$WHITE
 fi

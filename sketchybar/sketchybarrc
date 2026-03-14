@@ -31,7 +31,7 @@ default=(
     label.color=$WHITE
     background.drawing=off
     background.color=$ITEM_BG_COLOR
-    background.border_color=0xffffffff
+    background.border_color=$WHITE
     background.height=24
     background.corner_radius=5
     icon.padding_left=8
@@ -103,13 +103,13 @@ sketchybar --add item ssd_usage right \
 
 #Bracket for calendar, battery
 sketchybar --add bracket right_side date time \
-    --set right_side background.color=0x5e000000 \
+    --set right_side background.color=$BRACKET_BG_COLOR \
     background.drawing=on \
     background.height=28 \
     background.corner_radius=12
 # Bracket for sys_info
 sketchybar --add bracket sys_info cpu_usage ssd_usage battery \
-    --set sys_info background.color=0x5e000000 \
+    --set sys_info background.color=$BRACKET_BG_COLOR \
     background.drawing=on \
     background.height=28 \
     background.corner_radius=12
@@ -123,7 +123,7 @@ sketchybar --add item apple left \
     background.height=28 \
     background.corner_radius=12 \
     icon.padding_right=0 \
-    icon.color=0xffcba6f7
+    icon.color=$ACCENT_COLOR
 
 sketchybar --add event aerospace_workspace_change
 sketchybar --add event aerospace_monitor_change
@@ -179,7 +179,7 @@ sketchybar --add item front_app left \
     label.font="FiraCode Nerd Font Mono:Bold:14" \
     script="$PLUGIN_DIR/front_app.sh" \
     background.drawing=on \
-    background.color=0x5e000000 \
+    background.color=$BRACKET_BG_COLOR \
     background.height=28 \
     background.corner_radius=12 \
     --subscribe front_app front_app_switched
@@ -192,7 +192,7 @@ for mid in $(aerospace list-monitors | cut -c1); do
     sketchybar --add bracket left_bracket_$mid apple $space_items \
         --set left_bracket_$mid \
         display=$mid \
-        background.color=0x5e000000 \
+        background.color=$BRACKET_BG_COLOR \
         background.drawing=on \
         background.height=28 \
         background.corner_radius=12
