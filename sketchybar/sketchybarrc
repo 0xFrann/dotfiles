@@ -53,7 +53,8 @@ sketchybar --add item date right \
     width=0 \
     label.align=center \
     background.drawing=off \
-    y_offset=6
+    y_offset=6 \
+    --subscribe date system_woke
 
 sketchybar --add item time right \
     --set time \
@@ -65,7 +66,8 @@ sketchybar --add item time right \
     width=0 \
     label.align=center \
     background.drawing=off \
-    y_offset=-4
+    y_offset=-4 \
+    --subscribe time system_woke
 # Spacer
 sketchybar --add item spacer_right right \
     --set spacer_right \
