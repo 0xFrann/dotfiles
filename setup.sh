@@ -43,6 +43,16 @@ for itermcolors in "$DOTFILES_DIR"/themes/*/*.itermcolors; do
     fi
 done
 
+# --- Spicetify ---
+if command -v spicetify &>/dev/null; then
+    echo "==> Setting up Spicetify..."
+    spicetify backup apply 2>/dev/null || true
+    spicetify config custom_apps marketplace 2>/dev/null || true
+    spicetify apply 2>/dev/null || true
+    echo "    Open Spotify and pick a theme from the Marketplace."
+fi
+
 echo ""
 echo "==> Setup complete!"
 echo "    Run ./scripts/switch-theme.sh to pick a color theme."
+echo "    Sign into Raycast to sync your settings."

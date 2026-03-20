@@ -10,6 +10,8 @@
 | [SketchyBar](https://github.com/FelixKratz/SketchyBar) | Custom menu bar with workspaces, system info, app icons         |
 | [Cursor](https://cursor.sh)                            | Editor (VSCode fork) with settings, keybindings, and extensions |
 | [iTerm2](https://iterm2.com)                           | Terminal with color scheme presets                              |
+| [Raycast](https://raycast.com)                         | Spotlight replacement with extensions and custom commands        |
+| [Spicetify](https://spicetify.app)                     | Spotify client customization (themes, extensions, marketplace)  |
 
 ### Themes
 
@@ -37,6 +39,10 @@ cd ~/dotfiles
 3. Starts SketchyBar
 4. Symlinks configs into `~/.config` and Cursor's config directory
 5. Installs Cursor extensions from `cursor/extensions.txt`
+6. Imports iTerm2 color presets
+7. Installs Spicetify with Marketplace (pick a theme inside Spotify)
+
+> **Note:** Sign into Raycast to sync your settings.
 
 ## Scripts
 
@@ -57,6 +63,8 @@ Run `scripts/switch-theme.sh` with no arguments to list available themes.
 - [SketchyBar config reference](https://felixkratz.github.io/SketchyBar/config/bar)
 - [Cursor docs](https://docs.cursor.sh)
 - [iTerm2 docs](https://iterm2.com/documentation.html)
+- [Raycast manual](https://manual.raycast.com)
+- [Spicetify docs](https://spicetify.app/docs/getting-started)
 
 ### Must-know commands
 
