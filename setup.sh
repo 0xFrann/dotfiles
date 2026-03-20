@@ -24,6 +24,7 @@ brew bundle --file="$DOTFILES_DIR/Brewfile"
 
 # --- Services ---
 echo "==> Starting services..."
+brew services start borders 2>/dev/null || true
 brew services start sketchybar 2>/dev/null || true
 
 # --- Symlink configs ---

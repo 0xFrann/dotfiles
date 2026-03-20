@@ -7,6 +7,7 @@
 | Tool                                                   | What it does                                                    |
 | ------------------------------------------------------ | --------------------------------------------------------------- |
 | [AeroSpace](https://github.com/nikitabobko/AeroSpace)  | Tiling window manager (i3-like keybinds)                        |
+| [JankyBorders](https://github.com/FelixKratz/JankyBorders) | Colored borders on the focused window                       |
 | [SketchyBar](https://github.com/FelixKratz/SketchyBar) | Custom menu bar with workspaces, system info, app icons         |
 | [Cursor](https://cursor.sh)                            | Editor (VSCode fork) with settings, keybindings, and extensions |
 | [iTerm2](https://iterm2.com)                           | Terminal with color scheme presets                              |
@@ -22,7 +23,7 @@ Switch the entire stack between color themes with one command:
 - **Catppuccin Mocha**
 - **Tokyo Night**
 
-Each theme applies to SketchyBar, Cursor, iTerm2, and Chrome.
+Each theme applies to JankyBorders, SketchyBar, Cursor, iTerm2, and Chrome.
 
 ## Quick start
 
@@ -36,7 +37,7 @@ cd ~/dotfiles
 
 1. Installs [Homebrew](https://brew.sh) if missing
 2. Installs all packages, casks, and fonts via `Brewfile`
-3. Starts SketchyBar
+3. Starts JankyBorders and SketchyBar
 4. Symlinks configs into `~/.config` and Cursor's config directory
 5. Installs Cursor extensions from `cursor/extensions.txt`
 6. Imports iTerm2 color presets
@@ -50,7 +51,7 @@ cd ~/dotfiles
 | --------------------------------- | ----------------------------------------------------------------------- |
 | `scripts/switch-theme.sh <theme>` | Switch color theme across all tools                                     |
 | `scripts/sync-cursor.sh`          | Export currently installed Cursor extensions to `cursor/extensions.txt` |
-| `scripts/reload.sh`               | Reload AeroSpace and SketchyBar configs                                 |
+| `scripts/reload.sh`               | Reload AeroSpace, SketchyBar, and JankyBorders                         |
 | `scripts/link.sh`                 | Re-link config symlinks (called by `setup.sh`)                          |
 
 Run `scripts/switch-theme.sh` with no arguments to list available themes.
@@ -60,6 +61,7 @@ Run `scripts/switch-theme.sh` with no arguments to list available themes.
 ### Docs
 
 - [AeroSpace guide](https://nikitabobko.github.io/AeroSpace/guide)
+- [JankyBorders docs](https://github.com/FelixKratz/JankyBorders#configuration)
 - [SketchyBar config reference](https://felixkratz.github.io/SketchyBar/config/bar)
 - [Cursor docs](https://docs.cursor.sh)
 - [iTerm2 docs](https://iterm2.com/documentation.html)
@@ -112,6 +114,9 @@ dotfiles/
 ├── aerospace/
 │   ├── aerospace.toml         # Window manager config
 │   └── scripts/               # Aerospace helper scripts
+├── borders/
+│   ├── bordersrc              # JankyBorders config
+│   └── colors.sh              # Active border colors (auto-generated)
 ├── sketchybar/
 │   ├── sketchybarrc           # Bar config
 │   ├── colors.sh              # Active theme colors (auto-generated)

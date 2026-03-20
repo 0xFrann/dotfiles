@@ -12,5 +12,8 @@ BRACKET_BG_COLOR="0xe0181825"
 CURSOR_THEME="Catppuccin Mocha"
 CURSOR_EXTENSION="catppuccin.catppuccin-vsc"
 
+# JankyBorders (0xAARRGGBB)
+BORDER_ACTIVE_COLOR="0xffcba6f7"
+
 # Chrome
 CHROME_THEME_URL="https://chromewebstore.google.com/detail/bkkmolkhemgaeaeggcmfbghljjjoofoh"

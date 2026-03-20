@@ -1,6 +1,7 @@
 tap "nikitabobko/tap"
 tap "FelixKratz/formulae"
 
+brew "borders"
 brew "sketchybar"
 brew "spicetify-cli"
 

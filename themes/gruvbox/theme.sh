@@ -12,5 +12,8 @@ BRACKET_BG_COLOR="0xaa1d2021"
 CURSOR_THEME="Gruvbox Dark Medium"
 CURSOR_EXTENSION="jdinhlife.gruvbox"
 
+# JankyBorders (0xAARRGGBB)
+BORDER_ACTIVE_COLOR="0xfffabd2f"
+
 # Chrome
 CHROME_THEME_URL="https://chromewebstore.google.com/detail/giokfhncgfjkoamdbhfhfhgpikaioccc"

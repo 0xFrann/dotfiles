@@ -12,5 +12,8 @@ BRACKET_BG_COLOR="0xaa16161e"
 CURSOR_THEME="Tokyo Night"
 CURSOR_EXTENSION="enkia.tokyo-night"
 
+# JankyBorders (0xAARRGGBB)
+BORDER_ACTIVE_COLOR="0xff7aa2f7"
+
 # Chrome
 CHROME_THEME_URL="https://chromewebstore.google.com/detail/enpfonmmpgoinjpglildebkaphbhndek"
