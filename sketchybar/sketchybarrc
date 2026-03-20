@@ -80,7 +80,9 @@ sketchybar --add item battery right \
     --set battery \
     script="$PLUGIN_DIR/battery.sh" \
     background.drawing=off \
-    icon.padding_right=4 \
+    icon.padding_right=0 \
+    label.width=40 \
+    label.padding_right=12 \
     update_freq=60
 
 # cpu_usage
@@ -89,7 +91,8 @@ sketchybar --add item cpu_usage right \
     script="$PLUGIN_DIR/cpu_usage.sh" \
     background.drawing=off \
     update_freq=5 \
-    icon.padding_right=4 \
+    icon.padding_right=0 \
+    label.width=36 \
     icon="" \
     background.corner_radius=12 \
     icon.font="FiraCode Nerd Font Mono:Bold:20.0"
@@ -99,8 +102,9 @@ sketchybar --add item ssd_usage right \
     script="$PLUGIN_DIR/ssd_usage.sh" \
     background.drawing=off \
     update_freq=60 \
+    label.width=36 \
     icon="" \
-    icon.padding_right=4 \
+    icon.padding_right=0 \
     icon.font="FiraCode Nerd Font Mono:Bold:20.0"
 # Keyboard language
 sketchybar --add item keyboard right \
@@ -108,7 +112,7 @@ sketchybar --add item keyboard right \
     script="$PLUGIN_DIR/keyboard.sh" \
     background.drawing=off \
     icon="󰌌" \
-    icon.padding_right=4 \
+    icon.padding_right=0 \
     icon.font="FiraCode Nerd Font Mono:Bold:20.0" \
     --subscribe keyboard input_change
 
