@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+DOTFILES_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 THEMES_DIR="$DOTFILES_DIR/themes"
 
 if [ $# -eq 0 ]; then
-    echo "Usage: ./switch-theme.sh <theme>"
+    echo "Usage: ./scripts/switch-theme.sh <theme>"
     echo ""
     echo "Available themes:"
     for dir in "$THEMES_DIR"/*/; do

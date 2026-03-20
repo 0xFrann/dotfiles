@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+DOTFILES_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 CONFIG_DIR="$HOME/.config"
 
 mkdir -p "$CONFIG_DIR"
@@ -25,7 +25,7 @@ echo "Linking dotfiles from $DOTFILES_DIR -> $CONFIG_DIR"
 
 for dir in "$DOTFILES_DIR"/*/; do
   name="$(basename "$dir")"
-  [ "$name" = "cursor" ] && continue
+  [[ "$name" =~ ^(cursor|scripts|themes)$ ]] && continue
   target="$CONFIG_DIR/$name"
 
   if [ -L "$target" ]; then
@@ -65,7 +65,6 @@ if [ -d "$CURSOR_SRC" ]; then
     echo "  $name: linked"
   done
 
-  # Install extensions
   if [ -f "$CURSOR_SRC/extensions.txt" ] && command -v cursor &>/dev/null; then
     echo "Installing Cursor extensions..."
     while read -r ext; do
