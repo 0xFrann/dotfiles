@@ -25,7 +25,7 @@ echo "Linking dotfiles from $DOTFILES_DIR -> $CONFIG_DIR"
 
 for dir in "$DOTFILES_DIR"/*/; do
   name="$(basename "$dir")"
-  [[ "$name" =~ ^(cursor|scripts|themes)$ ]] && continue
+  [[ "$name" =~ ^(cursor|iterm2|scripts|themes)$ ]] && continue
   target="$CONFIG_DIR/$name"
 
   if [ -L "$target" ]; then

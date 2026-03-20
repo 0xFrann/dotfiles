@@ -13,4 +13,4 @@ CURSOR_THEME="Gruvbox Dark Medium"
 CURSOR_EXTENSION="jdinhlife.gruvbox"
 
 # Chrome
-CHROME_THEME_URL="https://chromewebstore.google.com/detail/omhkfakoeeehhlmjapbnoeogbpnpgmne"
+CHROME_THEME_URL="https://chromewebstore.google.com/detail/giokfhncgfjkoamdbhfhfhgpikaioccc"

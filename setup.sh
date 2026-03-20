@@ -30,6 +30,19 @@ brew services start sketchybar 2>/dev/null || true
 echo "==> Linking config files..."
 "$DOTFILES_DIR/scripts/link.sh"
 
+# --- iTerm2 color presets ---
+echo "==> Importing iTerm2 color presets..."
+for itermcolors in "$DOTFILES_DIR"/themes/*/*.itermcolors; do
+    [ -f "$itermcolors" ] || continue
+    preset="$(basename "$itermcolors" .itermcolors)"
+    if /usr/libexec/PlistBuddy -c "Print ':Custom Color Presets:$preset'" ~/Library/Preferences/com.googlecode.iterm2.plist &>/dev/null; then
+        echo "  $preset: already imported"
+    else
+        open "$itermcolors"
+        echo "  $preset: imported"
+    fi
+done
+
 echo ""
 echo "==> Setup complete!"
 echo "    Run ./scripts/switch-theme.sh to pick a color theme."
