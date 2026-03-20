@@ -12,6 +12,9 @@ workspace_icon() {
     7) echo "七" ;;
     8) echo "八" ;;
     9) echo "九" ;;
+    T1) echo "零" ;;
+    T2) echo "零" ;;
+    T3) echo "零" ;;
     esac
 }
 ICON=$(workspace_icon "$1")

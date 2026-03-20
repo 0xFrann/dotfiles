@@ -144,7 +144,9 @@ sketchybar --add event aerospace_workspace_change
 sketchybar --add event aerospace_monitor_change
 sketchybar --add event aerospace_focus_changed
 
-for sid in $(aerospace list-workspaces --all); do
+TEMP_WORKSPACES="T1 T2 T3"
+
+for sid in $(aerospace list-workspaces --all) $TEMP_WORKSPACES; do
     sketchybar --add item space.$sid left \
         --subscribe space.$sid aerospace_workspace_change \
         --set space.$sid \
@@ -201,7 +203,7 @@ sketchybar --add item front_app left \
 
 for mid in $(aerospace list-monitors | cut -c1); do
     space_items=""
-    for sid in $(aerospace list-workspaces --monitor "$mid"); do
+    for sid in $(aerospace list-workspaces --monitor "$mid") $TEMP_WORKSPACES; do
         space_items+="space.$sid "
     done
     sketchybar --add bracket left_bracket_$mid apple $space_items \

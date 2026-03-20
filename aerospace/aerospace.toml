@@ -32,6 +32,9 @@ exec-on-workspace-change = [
 7 = ['LF24T35 \(1\)', 'secondary', 'main']
 8 = ['LF24T35 \(1\)', 'secondary', 'main']
 9 = ['LF24T35 \(1\)', 'secondary', 'main']
+T1 = ['built-in', 'main']
+T2 = ['LF24T35 \(2\)', 'secondary', 'main']
+T3 = ['LF24T35 \(1\)', 'secondary', 'main']
 
 [gaps]
 inner.horizontal = 10
@@ -81,6 +84,9 @@ alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
 alt-shift-semicolon = 'mode service'
 alt-shift-r = 'mode resize'
+
+alt-0 = 'exec-and-forget ~/.config/aerospace/scripts/temp-workspace.sh switch'
+alt-shift-0 = 'exec-and-forget ~/.config/aerospace/scripts/temp-workspace.sh move'
 
 alt-shift-d = 'exec-and-forget ~/.config/aerospace/scripts/dev-layout.sh'
 
