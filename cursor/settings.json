@@ -95,5 +95,7 @@
   },
   "security.promptForLocalFileProtocolHandling": false,
   "claudeCode.preferredLocation": "panel",
-  "githubLocalActions.dockerDesktopPath": "/Applications/Docker.app"
+  "githubLocalActions.dockerDesktopPath": "/Applications/Docker.app",
+  "java.jdt.ls.java.home": "/Library/Java/JavaVirtualMachines/microsoft-25.jdk/Contents/Home",
+  "redhat.telemetry.enabled": false
 }
