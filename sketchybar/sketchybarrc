@@ -1,32 +1,19 @@
 #!/bin/bash
 
-# This is a demo config to showcase some of the most important commands.
-# It is meant to be changed and configured, as it is intentionally kept sparse.
-# For a (much) more advanced configuration example see my dotfiles:
-# https://github.com/FelixKratz/dotfiles
-
-source "$CONFIG_DIR/colors.sh"
+source "$CONFIG_DIR/theme.sh"
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 
 ##### Bar Appearance #####
-# Configuring the general appearance of the bar.
-# These are only some of the options available. For all options see:
-# https://felixkratz.github.io/SketchyBar/config/bar
-# If you are looking for other colors, see the color picker:
-# https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
 
-sketchybar --bar position=top height=37 blur_radius=0 color=0x00ffffff y_offset=-2 notch_offset=4
+sketchybar --bar position=top height=$BAR_HEIGHT blur_radius=0 color=$BAR_COLOR y_offset=-2 notch_offset=4
 
-##### Changing Defaults #####
-# We now change some default values, which are applied to all further items.
-# For a full list of all available item properties see:
-# https://felixkratz.github.io/SketchyBar/config/items
+##### Defaults #####
 
 default=(
     padding_left=5
     padding_right=5
-    icon.font="FiraCode Nerd Font Mono:Bold:17.0"
-    label.font="Fira Code:Bold:14.0"
+    icon.font="$NERD_FONT:Bold:$ICON_SIZE"
+    label.font="$FONT:Bold:$LABEL_SIZE"
     icon.color=$WHITE
     label.color=$WHITE
     background.drawing=off
@@ -34,22 +21,21 @@ default=(
     background.border_color=$WHITE
     background.height=24
     background.corner_radius=5
-    icon.padding_left=8
-    icon.padding_right=8
-    label.padding_left=8
-    label.padding_right=8
+    icon.padding_left=$ITEM_PADDING
+    icon.padding_right=$ITEM_PADDING
+    label.padding_left=$ITEM_PADDING
+    label.padding_right=$ITEM_PADDING
 )
 sketchybar --default "${default[@]}"
 
 # Center — next calendar event today (see plugins/calendar.sh)
-# next_event_meta: calendar icon (default size) + small (N); next_event: title text only
 sketchybar --add item next_event_meta center \
     --set next_event_meta \
     background.drawing=off \
     icon="󰃭" \
-    icon.padding_left=14 \
+    icon.padding_left=10 \
     icon.padding_right=2 \
-    label.font="Fira Code:Bold:10.0" \
+    label.font="$FONT:Bold:$LABEL_SIZE_SM" \
     label.padding_left=2 \
     label.padding_right=4 \
     label.drawing=off
@@ -59,7 +45,7 @@ sketchybar --add item next_event center \
     update_freq=600 \
     script="$PLUGIN_DIR/calendar.sh" \
     icon.drawing=off \
-    label.font="Fira Code:Bold:13.0" \
+    label.font="$FONT:Bold:13.0" \
     label.max_chars=48 \
     label.align=center \
     label.padding_left=2 \
@@ -70,8 +56,8 @@ sketchybar --add bracket next_event_b next_event_meta next_event \
     --set next_event_b \
     background.color=$BRACKET_BG_COLOR \
     background.drawing=on \
-    background.height=28 \
-    background.corner_radius=12
+    background.height=$BRACKET_HEIGHT \
+    background.corner_radius=$BRACKET_RADIUS
 
 # Right Side Items
 # Calendar
@@ -80,7 +66,7 @@ sketchybar --add item date right \
     update_freq=3600 \
     script="$PLUGIN_DIR/date.sh" \
     icon.drawing=off \
-    label.font="Fira Code:Regular:9" \
+    label.font="$FONT:Regular:$LABEL_SIZE_XS" \
     label.padding_left=6 \
     width=0 \
     label.align=center \
@@ -93,13 +79,14 @@ sketchybar --add item time right \
     update_freq=30 \
     script="$PLUGIN_DIR/time.sh" \
     icon.drawing=off \
-    label.font="Fira Code:Bold:13" \
+    label.font="$FONT:Bold:13.0" \
     label.padding_left=6 \
     width=0 \
     label.align=center \
     background.drawing=off \
     y_offset=-4 \
     --subscribe time system_woke
+
 # Spacer
 sketchybar --add item spacer_right right \
     --set spacer_right \
@@ -107,6 +94,7 @@ sketchybar --add item spacer_right right \
     background.drawing=off \
     label.drawing=off \
     icon.drawing=off
+
 # Battery
 sketchybar --add item battery right \
     --set battery \
@@ -117,7 +105,7 @@ sketchybar --add item battery right \
     label.padding_right=12 \
     update_freq=60
 
-# cpu_usage
+# CPU usage
 sketchybar --add item cpu_usage right \
     --set cpu_usage \
     script="$PLUGIN_DIR/cpu_usage.sh" \
@@ -126,8 +114,8 @@ sketchybar --add item cpu_usage right \
     icon.padding_right=0 \
     label.width=36 \
     icon="" \
-    background.corner_radius=12 \
-    icon.font="FiraCode Nerd Font Mono:Bold:20.0"
+    icon.font="$NERD_FONT:Bold:$ICON_SIZE_LG"
+
 # RAM usage
 sketchybar --add item ram_usage right \
     --set ram_usage \
@@ -137,8 +125,9 @@ sketchybar --add item ram_usage right \
     label.width=36 \
     icon="󰍛" \
     icon.padding_right=0 \
-    icon.font="FiraCode Nerd Font Mono:Bold:20.0"
-# SSD_usage
+    icon.font="$NERD_FONT:Bold:$ICON_SIZE_LG"
+
+# SSD usage
 sketchybar --add item ssd_usage right \
     --set ssd_usage \
     script="$PLUGIN_DIR/ssd_usage.sh" \
@@ -147,7 +136,8 @@ sketchybar --add item ssd_usage right \
     label.width=36 \
     icon="" \
     icon.padding_right=0 \
-    icon.font="FiraCode Nerd Font Mono:Bold:20.0"
+    icon.font="$NERD_FONT:Bold:$ICON_SIZE_LG"
+
 # Keyboard language
 sketchybar --add item keyboard right \
     --set keyboard \
@@ -155,31 +145,33 @@ sketchybar --add item keyboard right \
     background.drawing=off \
     icon="󰌌" \
     icon.padding_right=0 \
-    icon.font="FiraCode Nerd Font Mono:Bold:20.0" \
+    icon.font="$NERD_FONT:Bold:$ICON_SIZE_LG" \
     --subscribe keyboard input_change
 
-#Bracket for calendar, battery
+# Bracket for calendar
 sketchybar --add bracket right_side date time \
     --set right_side background.color=$BRACKET_BG_COLOR \
     background.drawing=on \
-    background.height=28 \
-    background.corner_radius=12
+    background.height=$BRACKET_HEIGHT \
+    background.corner_radius=$BRACKET_RADIUS
+
 # Bracket for sys_info
 sketchybar --add bracket sys_info cpu_usage ram_usage ssd_usage battery keyboard \
     --set sys_info background.color=$BRACKET_BG_COLOR \
     background.drawing=on \
-    background.height=28 \
-    background.corner_radius=12
+    background.height=$BRACKET_HEIGHT \
+    background.corner_radius=$BRACKET_RADIUS
 
 # Left Side Items
 sketchybar --add item apple left \
     --set apple \
     icon="" \
-    icon.font="FiraCode Nerd Font Mono:Bold:25.0" \
+    icon.font="$NERD_FONT:Bold:$ICON_SIZE_XL" \
     background.drawing=off \
-    background.height=28 \
-    background.corner_radius=12 \
     icon.padding_right=0 \
+    icon.padding_left=4 \
+    padding_right=0 \
+    icon.y_offset=1 \
     icon.color=$ACCENT_COLOR
 
 sketchybar --add event aerospace_workspace_change
@@ -194,9 +186,9 @@ for sid in $(aerospace list-workspaces --all) $TEMP_WORKSPACES; do
         --set space.$sid \
         drawing=off \
         label.drawing=on \
-        label.font="sketchybar-app-font:Regular:16.0" \
+        label.font="$APP_FONT:Regular:16.0" \
         background.drawing=on \
-        background.color=0x00ffffff \
+        background.color=$BAR_COLOR \
         icon="$sid" \
         icon.padding_left=10 \
         label.padding_right=15 \
@@ -235,12 +227,12 @@ sketchybar --add item icon_refresher left \
 
 sketchybar --add item front_app left \
     --set front_app icon.drawing=off \
-    label.font="FiraCode Nerd Font Mono:Bold:14" \
+    label.font="$NERD_FONT:Bold:$LABEL_SIZE" \
     script="$PLUGIN_DIR/front_app.sh" \
     background.drawing=on \
     background.color=$BRACKET_BG_COLOR \
-    background.height=28 \
-    background.corner_radius=12 \
+    background.height=$BRACKET_HEIGHT \
+    background.corner_radius=$BRACKET_RADIUS \
     --subscribe front_app front_app_switched
 
 for mid in $(aerospace list-monitors | cut -c1); do
@@ -253,8 +245,8 @@ for mid in $(aerospace list-monitors | cut -c1); do
         display=$mid \
         background.color=$BRACKET_BG_COLOR \
         background.drawing=on \
-        background.height=28 \
-        background.corner_radius=12
+        background.height=$BRACKET_HEIGHT \
+        background.corner_radius=$BRACKET_RADIUS
 done
 
 sketchybar --update

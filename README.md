@@ -172,7 +172,7 @@ dotfiles/
 │   └── colors.sh              # Active border colors (auto-generated)
 ├── sketchybar/
 │   ├── sketchybarrc           # Bar config
-│   ├── colors.sh              # Active theme colors (auto-generated)
+│   ├── theme.sh               # Active theme + style tokens (auto-generated)
 │   └── plugins/               # Bar item scripts (incl. google_calendar.py)
 ├── cursor/
 │   ├── settings.json          # Editor settings

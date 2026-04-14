@@ -1,5 +1,5 @@
 #!/bin/bash
-source "$CONFIG_DIR/colors.sh"
+source "$CONFIG_DIR/theme.sh"
 
 workspace_icon() {
     case "$1" in
