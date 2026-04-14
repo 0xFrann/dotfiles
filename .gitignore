@@ -2,3 +2,12 @@
 *.swp
 *.swo
 *~
+
+# SketchyBar: calendar secrets/config and Python cache (never commit)
+sketchybar/*.url
+sketchybar/google_calendar_credentials.json
+sketchybar/google_calendar_token.json
+sketchybar/google_calendar_config.json
+sketchybar/secrets/
+sketchybar/.venv/
+sketchybar/plugins/__pycache__/

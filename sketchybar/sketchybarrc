@@ -41,6 +41,38 @@ default=(
 )
 sketchybar --default "${default[@]}"
 
+# Center — next calendar event today (see plugins/calendar.sh)
+# next_event_meta: calendar icon (default size) + small (N); next_event: title text only
+sketchybar --add item next_event_meta center \
+    --set next_event_meta \
+    background.drawing=off \
+    icon="󰃭" \
+    icon.padding_left=14 \
+    icon.padding_right=2 \
+    label.font="Fira Code:Bold:10.0" \
+    label.padding_left=2 \
+    label.padding_right=4 \
+    label.drawing=off
+
+sketchybar --add item next_event center \
+    --set next_event \
+    update_freq=600 \
+    script="$PLUGIN_DIR/calendar.sh" \
+    icon.drawing=off \
+    label.font="Fira Code:Bold:13.0" \
+    label.max_chars=48 \
+    label.align=center \
+    label.padding_left=2 \
+    background.drawing=off \
+    --subscribe next_event system_woke
+
+sketchybar --add bracket next_event_b next_event_meta next_event \
+    --set next_event_b \
+    background.color=$BRACKET_BG_COLOR \
+    background.drawing=on \
+    background.height=28 \
+    background.corner_radius=12
+
 # Right Side Items
 # Calendar
 sketchybar --add item date right \

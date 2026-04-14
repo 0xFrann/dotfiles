@@ -8,7 +8,7 @@
 | ------------------------------------------------------ | --------------------------------------------------------------- |
 | [AeroSpace](https://github.com/nikitabobko/AeroSpace)  | Tiling window manager (i3-like keybinds)                        |
 | [JankyBorders](https://github.com/FelixKratz/JankyBorders) | Colored borders on the focused window                       |
-| [SketchyBar](https://github.com/FelixKratz/SketchyBar) | Custom menu bar with workspaces, system info, app icons         |
+| [SketchyBar](https://github.com/FelixKratz/SketchyBar) | Custom menu bar with workspaces, system info, app icons, optional next calendar event |
 | [Cursor](https://cursor.sh)                            | Editor (VSCode fork) with settings, keybindings, and extensions |
 | [iTerm2](https://iterm2.com)                           | Terminal with color scheme presets                              |
 | [Raycast](https://raycast.com)                         | Spotlight replacement with extensions and custom commands        |
@@ -47,14 +47,66 @@ cd ~/dotfiles
 
 ## Scripts
 
-| Script                            | Usage                                                                   |
-| --------------------------------- | ----------------------------------------------------------------------- |
-| `scripts/switch-theme.sh <theme>` | Switch color theme across all tools                                     |
+| Script                            | Usage                                                           |
+| --------------------------------- | --------------------------------------------------------------- |
+| `scripts/switch-theme.sh <theme>` | Switch color theme across all tools                             |
 | `scripts/sync-cursor.sh`          | Export currently installed Cursor extensions to `cursor/extensions.txt` |
-| `scripts/reload.sh`               | Reload AeroSpace, SketchyBar, and JankyBorders                         |
-| `scripts/link.sh`                 | Re-link config symlinks (called by `setup.sh`)                          |
+| `scripts/reload.sh`               | Reload AeroSpace, SketchyBar, and JankyBorders                 |
+| `scripts/link.sh`                 | Re-link config symlinks (called by `setup.sh`)                  |
+| `scripts/setup-google-calendar.sh` | Set up Google Calendar in SketchyBar (optional, see below)     |
 
 Run `scripts/switch-theme.sh` with no arguments to list available themes.
+
+## Google Calendar in SketchyBar (optional)
+
+The bar can show your next calendar event in the center. It uses the Google Calendar API with OAuth, so it works with org/shared calendars too (not just your primary).
+
+### Setup
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/):
+   - Create a project (or pick an existing one)
+   - Enable the **Google Calendar API**
+   - Go to **Credentials** → **Create credentials** → **OAuth client ID** → type **Desktop app**
+   - Download the JSON
+2. Save it as `~/.config/sketchybar/google_calendar_credentials.json`
+3. Run the setup script:
+
+```bash
+./scripts/setup-google-calendar.sh
+```
+
+That's it. The script installs Python dependencies, opens a browser for login, lists your calendars, and reloads the bar.
+
+### Filtering calendars
+
+After setup, a config file is created at `~/.config/sketchybar/google_calendar_config.json`. Add calendar names to the `"exclude"` array to hide them from the bar:
+
+```json
+{"exclude": ["OOO", "Holidays in Argentina"]}
+```
+
+Reload the bar after editing: `sketchybar --reload`. To see your calendars and which ones are excluded, run:
+
+```bash
+~/.config/sketchybar/.venv/bin/python3 ~/.config/sketchybar/plugins/google_calendar.py --list-calendars
+```
+
+### Troubleshooting
+
+If something goes wrong, the bar shows a short error instead of the event name:
+
+| Bar label                | Fix                                                                                                  |
+| ------------------------ | ---------------------------------------------------------------------------------------------------- |
+| `⚠ deps not installed`  | Run `./scripts/setup-google-calendar.sh`                                                             |
+| `⚠ no credentials file` | Download the OAuth JSON from Google Cloud Console (step 1–2 above)                                   |
+| `⚠ run --auth first`    | Run `./scripts/setup-google-calendar.sh`                                                             |
+| `⚠ token expired`       | Re-run `./scripts/setup-google-calendar.sh`                                                          |
+| `⚠ enable Calendar API` | Open [Calendar API](https://console.cloud.google.com/apis/library/calendar-json.googleapis.com) and click **Enable** |
+| `⚠ access denied`       | Workspace admin may need to allowlist the OAuth client, or use a personal Google account              |
+| `⚠ API error (NNN)`     | Run the script manually to see the full error: `~/.config/sketchybar/.venv/bin/python3 ~/.config/sketchybar/plugins/google_calendar.py` |
+| `⚠ calendar error`      | Same as above — run manually to see the traceback                                                    |
+
+> **Workspace note:** A Google Workspace admin can block third-party OAuth clients until the app is allowlisted.
 
 ## Development
 
@@ -110,7 +162,8 @@ dotfiles/
 ├── scripts/
 │   ├── link.sh               # Symlink configs
 │   ├── switch-theme.sh       # Theme switcher
-│   └── sync-cursor.sh        # Export Cursor extensions
+│   ├── sync-cursor.sh        # Export Cursor extensions
+│   └── setup-google-calendar.sh  # Google Calendar setup (optional)
 ├── aerospace/
 │   ├── aerospace.toml         # Window manager config
 │   └── scripts/               # Aerospace helper scripts
@@ -120,7 +173,7 @@ dotfiles/
 ├── sketchybar/
 │   ├── sketchybarrc           # Bar config
 │   ├── colors.sh              # Active theme colors (auto-generated)
-│   └── plugins/               # Bar item scripts
+│   └── plugins/               # Bar item scripts (incl. google_calendar.py)
 ├── cursor/
 │   ├── settings.json          # Editor settings
 │   ├── keybindings.json       # Keybindings
