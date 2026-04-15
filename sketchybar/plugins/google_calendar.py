@@ -299,7 +299,7 @@ def _pick_label(
         candidates.append((start, end, title, _ad))
 
     if not candidates:
-        return "—", None
+        return "Enjoy your day ✨", None
 
     candidates.sort(key=lambda x: x[0])
 
