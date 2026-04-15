@@ -75,6 +75,18 @@ def _load_exclude_set() -> set[str]:
         return set()
 
 
+def _load_exclude_event_prefixes() -> list[str]:
+    """Read event title prefixes to hide from config. Case-insensitive."""
+    path = _config_path()
+    if not path.is_file():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return [p.lower() for p in data.get("exclude_events", [])]
+    except Exception:
+        return []
+
+
 def run_oauth_login() -> None:
     """Open browser once; save refresh token. Called by setup-google-calendar.sh."""
     cred_path, token_path = _cred_paths()
@@ -203,6 +215,7 @@ def _api_error_from_http(e: HttpError, context: str) -> _CalendarAPIError:
 
 def _fetch_events_today(
     service, local_tz: tzinfo, exclude: set[str],
+    exclude_prefixes: list[str] | None = None,
 ) -> list[tuple[datetime, datetime, str, bool]]:
     now = datetime.now(local_tz)
     day_start = datetime.combine(now.date(), datetime.min.time(), tzinfo=local_tz)
@@ -248,6 +261,10 @@ def _fetch_events_today(
                 for item in ev_res.get("items", []):
                     parsed = _event_from_api_item(item, local_tz)
                     if parsed:
+                        if exclude_prefixes:
+                            title_lower = parsed[2].strip().lower()
+                            if any(title_lower.startswith(p) for p in exclude_prefixes):
+                                continue
                         merged.append(parsed)
                 ev_page = ev_res.get("nextPageToken")
                 if not ev_page:
@@ -328,11 +345,12 @@ def main() -> None:
         return
 
     exclude = _load_exclude_set()
+    exclude_prefixes = _load_exclude_event_prefixes()
     local_tz = _local_tz()
     now = datetime.now(local_tz)
     try:
         service = build("calendar", "v3", credentials=creds, cache_discovery=False)
-        events = _fetch_events_today(service, local_tz, exclude)
+        events = _fetch_events_today(service, local_tz, exclude, exclude_prefixes)
         label, count = _pick_label(events, now)
         if count is None:
             print(label, end="")
