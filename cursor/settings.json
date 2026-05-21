@@ -39,6 +39,7 @@
     }
   ],
   "liveSassCompile.settings.autoprefix": ["> 1%", "last 2 versions"],
+  "extensions.autoUpdate": false,
   "terminal.integrated.shell.osx": "/bin/zsh",
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
