@@ -50,6 +50,7 @@ sketchybar --add item next_event center \
     label.align=center \
     label.padding_left=2 \
     background.drawing=off \
+    click_script="$PLUGIN_DIR/google_calendar_auth.sh" \
     --subscribe next_event system_woke
 
 sketchybar --add bracket next_event_b next_event_meta next_event \

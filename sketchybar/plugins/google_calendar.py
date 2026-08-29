@@ -76,7 +76,7 @@ def _load_exclude_set() -> set[str]:
 
 
 def _load_exclude_event_prefixes() -> list[str]:
-    """Read event title prefixes to hide from config. Case-insensitive."""
+    """Read event title phrases to hide from config. Case-insensitive."""
     path = _config_path()
     if not path.is_file():
         return []
@@ -263,7 +263,7 @@ def _fetch_events_today(
                     if parsed:
                         if exclude_prefixes:
                             title_lower = parsed[2].strip().lower()
-                            if any(title_lower.startswith(p) for p in exclude_prefixes):
+                            if any(p in title_lower for p in exclude_prefixes):
                                 continue
                         merged.append(parsed)
                 ev_page = ev_res.get("nextPageToken")
@@ -340,8 +340,8 @@ def main() -> None:
 
     creds = _load_credentials()
     if creds is None:
-        print("⚠ token expired", end="")
-        print(f"sketchybar-next-event: token invalid; re-run setup-google-calendar.sh", file=sys.stderr)
+        print("⚠ re-auth needed", end="")
+        print(f"sketchybar-next-event: token invalid; click to re-authenticate", file=sys.stderr)
         return
 
     exclude = _load_exclude_set()
