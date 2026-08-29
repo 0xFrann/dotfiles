@@ -25,7 +25,7 @@ echo "Linking dotfiles from $DOTFILES_DIR -> $CONFIG_DIR"
 
 for dir in "$DOTFILES_DIR"/*/; do
   name="$(basename "$dir")"
-  [[ "$name" =~ ^(cursor|iterm2|scripts|themes)$ ]] && continue
+  [[ "$name" =~ ^(cursor|iterm2|scripts|themes|zsh)$ ]] && continue
   target="$CONFIG_DIR/$name"
 
   if [ -L "$target" ]; then
@@ -39,6 +39,22 @@ for dir in "$DOTFILES_DIR"/*/; do
   ln -s "$dir" "$target"
   echo "  $name: linked"
 done
+
+# zsh: ~/.zshrc must live in $HOME, not ~/.config
+ZSHRC_SRC="$DOTFILES_DIR/zsh/.zshrc"
+ZSHRC_DST="$HOME/.zshrc"
+
+if [ -f "$ZSHRC_SRC" ]; then
+  if [ -L "$ZSHRC_DST" ]; then
+    echo "  .zshrc: already linked, updating"
+    rm "$ZSHRC_DST"
+  elif [ -e "$ZSHRC_DST" ]; then
+    echo "  .zshrc: backing up existing $ZSHRC_DST -> $ZSHRC_DST.bak"
+    mv "$ZSHRC_DST" "$ZSHRC_DST.bak"
+  fi
+  ln -s "$ZSHRC_SRC" "$ZSHRC_DST"
+  echo "  .zshrc: linked"
+fi
 
 # Cursor/VSCode: symlink individual files into Application Support
 CURSOR_SRC="$DOTFILES_DIR/cursor"

@@ -1,0 +1,16 @@
+[user]
+	name = 0xFrann
+	email = francomdalmasso@gmail.com
+	# signingkey = <KEYID>   — set after generating a key, see DEV-SETUP.md
+[commit]
+	gpgsign = false
+[tag]
+	gpgsign = false
+[gpg]
+	program = gpg
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[push]
+	autoSetupRemote = true

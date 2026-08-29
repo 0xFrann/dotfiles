@@ -45,6 +45,8 @@ cd ~/dotfiles
 
 > **Note:** Sign into Raycast to sync your settings.
 
+Dev tooling (node, pnpm, gh, docker, GPG signing, …) is separate — see [DEV-SETUP.md](DEV-SETUP.md) for the list and the one-liner.
+
 ## Scripts
 
 | Script                            | Usage                                                           |
@@ -158,7 +160,10 @@ If something goes wrong, the bar shows a short error instead of the event name:
 ```
 dotfiles/
 ├── setup.sh                  # Full setup entry point
-├── Brewfile                  # Homebrew dependencies
+├── Brewfile                  # Homebrew dependencies (ricing)
+├── DEV-SETUP.md              # Dev tooling list, install one-liner, GPG guide
+├── zsh/.zshrc                # Linked to ~/.zshrc
+├── git/                      # Linked to ~/.config/git (identity, ignore)
 ├── scripts/
 │   ├── link.sh               # Symlink configs
 │   ├── switch-theme.sh       # Theme switcher
