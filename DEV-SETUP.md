@@ -3,13 +3,55 @@
 Everything a frontend dev needs on a clean Mac, beyond the ricing in `Brewfile`.
 Nothing here needs a backup — it all comes from installers or `gh auth login`.
 
-## Order of operations
+## Step by step (fresh Mac)
 
-1. `xcode-select --install` → gives you **git** and the compilers. Wait for the dialog to finish.
-2. `git clone https://github.com/0xFrann/dotfiles.git ~/dotfiles && cd ~/dotfiles && ./setup.sh`
-   → Homebrew, ricing (AeroSpace, SketchyBar, Cursor, iTerm2, Raycast, fonts) and links `~/.zshrc` + `~/.config/*`.
-3. Run the **one-liner** below → all the dev tooling.
-4. Open a new terminal, then `gh auth login` and (optionally) the GPG section.
+Do these in order. Each step depends on the previous one.
+
+**1. Finish macOS setup** — create the single user account, sign in to iCloud, install 1Password from the App Store
+and sign in (you'll need it for `gh auth login` and the GPG key backup).
+
+**2. Xcode Command Line Tools** — this is what installs `git`, `clang`, and `make`. Open Terminal.app and run:
+
+```bash
+xcode-select --install
+```
+
+A dialog pops up → click **Install** and wait for it to finish (a few minutes). Verify with:
+
+```bash
+git --version        # should print "git version 2.x (Apple Git-...)"
+xcode-select -p      # should print /Library/Developer/CommandLineTools
+```
+
+**3. Clone the dotfiles and run the ricing setup** — installs Homebrew, then everything in `Brewfile`
+(AeroSpace, SketchyBar, JankyBorders, Cursor, iTerm2, Raycast, Spotify, fonts), and links `~/.zshrc` + `~/.config/*`:
+
+```bash
+git clone https://github.com/0xFrann/dotfiles.git ~/dotfiles && cd ~/dotfiles && ./setup.sh
+```
+
+Close Terminal.app and open **iTerm2** from here on (new shell → linked `.zshrc` is active, `brew` is on PATH).
+
+**4. Dev tooling** — paste the [one-liner](#the-one-liner) below. It ends with `gh auth login`: pick
+*GitHub.com → HTTPS → Login with a web browser*, account `0xFrann`.
+
+**5. New terminal** — quit and reopen iTerm2 so `nvm`, `bun`, and `opencode` are on PATH. Check:
+
+```bash
+node -v && pnpm -v && bun -v && gh auth status
+```
+
+**6. Open Docker Desktop once** from `/Applications` to finish installing the `docker` CLI.
+
+**7. Optional: GPG commit signing** — follow the [GPG section](#gpg-commit-signing) below.
+
+**8. Get your repos back:**
+
+```bash
+mkdir -p ~/dev && gh repo clone 0xFrann/cv ~/Documents/cv
+```
+
+**9. Sign in to Raycast, Cursor, Claude Code (`claude`)** and pick a theme with `scripts/switch-theme.sh`.
 
 ## Programs
 
