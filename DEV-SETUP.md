@@ -138,16 +138,19 @@ gpg --full-generate-key
 # 2. Grab the key id (the part after "ed25519/" on the "sec" line)
 gpg --list-secret-keys --keyid-format long
 
-# 3. Tell git to sign with it
+# 3. Register the key globally, but leave signing OFF by default
 git config --global user.signingkey <KEYID>
-git config --global commit.gpgsign true
-git config --global tag.gpgsign true
+git config --global commit.gpgsign false
+git config --global tag.gpgsign false
 
-# 4. Use the macOS pinentry (GUI prompt + "save in keychain" checkbox) and cache the passphrase for 8h
+# ...then opt in per project, inside repos that actually warrant a signature:
+#   git config commit.gpgsign true
+
+# 4. Use the macOS pinentry, and do NOT cache the passphrase (see note below)
 cat > ~/.gnupg/gpg-agent.conf <<'EOF'
 pinentry-program /opt/homebrew/bin/pinentry-mac
-default-cache-ttl 28800
-max-cache-ttl 28800
+default-cache-ttl 0
+max-cache-ttl 0
 EOF
 gpgconf --kill gpg-agent
 
@@ -161,6 +164,18 @@ git commit --allow-empty -m "test signing" && git log --show-signature -1
 
 If a commit ever fails with `gpg failed to sign the data`, it's almost always a missing `GPG_TTY` (open a new
 terminal) or a dead agent (`gpgconf --kill gpg-agent`).
+
+**Why the passphrase is not cached, and not in the Keychain.** pinentry-mac offers a "Save in Keychain"
+checkbox, and gpg-agent offers a cache TTL. Either one means gpg-agent will hand the passphrase over
+silently to *any* process running as your user — a script, a CI runner, an AI agent, a malicious
+`postinstall` — so commits can be signed as you with no involvement on your part. With `cache-ttl 0` and
+no Keychain entry, every signature has to be approved at a GUI prompt, which is the point: a signature
+should mean a human agreed to it. Verify nothing is stored with:
+
+```bash
+security find-generic-password -s "GnuPG"     # should report: could not be found
+gpg-connect-agent 'keyinfo --list' /bye       # the field after the 3rd '-' should be '-', not '1'
+```
 
 ### Backing up the key
 

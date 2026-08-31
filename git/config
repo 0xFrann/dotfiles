@@ -3,10 +3,13 @@
 	email = francomdalmasso@gmail.com
 	# ed25519 key generated 2026-08-31; see DEV-SETUP.md "GPG commit signing"
 	signingkey = 6634AAAE86E2D4EF
+# Signing is opt-in per repository, never global. Inside a project that warrants
+# it: `git config commit.gpgsign true`. The passphrase is deliberately uncached
+# (see DEV-SETUP.md), so each signature must be approved at the pinentry prompt.
 [commit]
-	gpgsign = true
+	gpgsign = false
 [tag]
-	gpgsign = true
+	gpgsign = false
 [gpg]
 	program = gpg
 [init]
