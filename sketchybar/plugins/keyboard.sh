@@ -13,10 +13,15 @@ if [ -z "$SOURCE_ID" ]; then
         | awk -F. '{print $NF}')
 fi
 
+if [ -z "$SOURCE_ID" ]; then
+    sketchybar --set "$NAME" label="--"
+    exit 0
+fi
+
 case "$SOURCE_ID" in
     U.S.|US|ABC|"Australian"|"British"|USInternational*) LANG_LABEL="EN" ;;
     Hebrew|Hebrew-QWERTY)                                LANG_LABEL="HE" ;;
-    Spanish|Spanish-ISO)                                 LANG_LABEL="ES" ;;
+    Spanish|Spanish-ISO|LatinAmerican|SpanishISO)        LANG_LABEL="ES" ;;
     French)                                              LANG_LABEL="FR" ;;
     German)                                              LANG_LABEL="DE" ;;
     Italian)                                             LANG_LABEL="IT" ;;

@@ -1,11 +1,12 @@
 [user]
 	name = 0xFrann
 	email = francomdalmasso@gmail.com
-	# signingkey = <KEYID>   — set after generating a key, see DEV-SETUP.md
+	# ed25519 key generated 2026-08-31; see DEV-SETUP.md "GPG commit signing"
+	signingkey = 6634AAAE86E2D4EF
 [commit]
-	gpgsign = false
+	gpgsign = true
 [tag]
-	gpgsign = false
+	gpgsign = true
 [gpg]
 	program = gpg
 [init]

@@ -7,8 +7,8 @@ Nothing here needs a backup — it all comes from installers or `gh auth login`.
 
 Do these in order. Each step depends on the previous one.
 
-**1. Finish macOS setup** — create the single user account, sign in to iCloud, install 1Password from the App Store
-and sign in (you'll need it for `gh auth login` and the GPG key backup).
+**1. Finish macOS setup** — create the single user account, sign in to iCloud, and set up your password
+manager (you'll need it for `gh auth login` and the GPG key backup).
 
 **2. Xcode Command Line Tools** — this is what installs `git`, `clang`, and `make`. Open Terminal.app and run:
 
@@ -162,9 +162,40 @@ git commit --allow-empty -m "test signing" && git log --show-signature -1
 If a commit ever fails with `gpg failed to sign the data`, it's almost always a missing `GPG_TTY` (open a new
 terminal) or a dead agent (`gpgconf --kill gpg-agent`).
 
-Back up the private key to 1Password so a future reset doesn't lose the "Verified" badge history:
+### Backing up the key
+
+Losing the secret key means losing the ability to sign as this identity, and with a non-expiring key the
+revocation certificate is the only way to retire it. So keep an encrypted copy off this machine.
+
+**Where that copy lives is deliberately not recorded here — this repo is public, and naming the location
+would tell an attacker where to aim.** Keep that detail in your own encrypted notes.
+
+Export the three pieces:
 
 ```bash
-gpg --armor --export-secret-keys <KEYID>   # paste into a 1Password Secure Note
-# restore later with: gpg --import <file> && gpg --edit-key <KEYID> trust → 5
+gpg --armor --export-secret-keys <KEYID> > secret-key.asc        # already passphrase-protected
+gpg --armor --export <KEYID>             > public-key.asc
+cp ~/.gnupg/openpgp-revocs.d/<FINGERPRINT>.rev revocation-cert.rev
+```
+
+Then:
+
+- Put them inside an encrypted container — e.g. `hdiutil create -encryption AES-256 -stdinpass
+  -srcfolder <dir> backup.dmg` — never as bare files in cloud storage.
+- **Prove the container is actually encrypted** before trusting it: an empty password must be rejected
+  (`printf '' | hdiutil attach -stdinpass -nomount -readonly backup.dmg` should fail). A tool that
+  silently accepts an empty password produces a backup that looks fine and protects nothing.
+- **Prove it restores**, in a scratch keyring that can't touch your real one, and check the fingerprint:
+
+  ```bash
+  GNUPGHOME=$(mktemp -d) gpg --import secret-key.asc
+  ```
+
+- Keep the container's password somewhere other than the container.
+- Keep `revocation-cert.rev` separate from `secret-key.asc` — one retires the key, the other is the key.
+
+Restore later with:
+
+```bash
+gpg --import secret-key.asc && gpg --edit-key <KEYID> trust   # → 5 → quit
 ```
