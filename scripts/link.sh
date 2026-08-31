@@ -25,7 +25,7 @@ echo "Linking dotfiles from $DOTFILES_DIR -> $CONFIG_DIR"
 
 for dir in "$DOTFILES_DIR"/*/; do
   name="$(basename "$dir")"
-  [[ "$name" =~ ^(cursor|iterm2|scripts|themes|zsh)$ ]] && continue
+  [[ "$name" =~ ^(claude|cursor|iterm2|scripts|themes|zsh)$ ]] && continue
   target="$CONFIG_DIR/$name"
 
   if [ -L "$target" ]; then
@@ -54,6 +54,21 @@ if [ -f "$ZSHRC_SRC" ]; then
   fi
   ln -s "$ZSHRC_SRC" "$ZSHRC_DST"
   echo "  .zshrc: linked"
+fi
+
+# Claude Code: settings live in ~/.claude and Claude rewrites them, so merge our
+# keys into the existing file instead of symlinking it.
+CLAUDE_SRC="$DOTFILES_DIR/claude"
+CLAUDE_SETTINGS="$HOME/.claude/settings.json"
+
+if [ -d "$CLAUDE_SRC" ] && command -v jq &>/dev/null; then
+  echo "Configuring Claude Code status line"
+  mkdir -p "$HOME/.claude"
+  [ -f "$CLAUDE_SETTINGS" ] || echo '{}' > "$CLAUDE_SETTINGS"
+  tmp="$(mktemp)"
+  jq --slurpfile add "$CLAUDE_SRC/settings.partial.json" '. * $add[0]' "$CLAUDE_SETTINGS" > "$tmp" \
+    && mv "$tmp" "$CLAUDE_SETTINGS"
+  echo "  statusLine: configured"
 fi
 
 # Cursor/VSCode: symlink individual files into Application Support

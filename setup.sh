@@ -22,14 +22,17 @@ fi
 echo "==> Installing packages from Brewfile..."
 brew bundle --file="$DOTFILES_DIR/Brewfile"
 
-# --- Services ---
-echo "==> Starting services..."
-brew services start borders 2>/dev/null || true
-brew services start sketchybar 2>/dev/null || true
-
 # --- Symlink configs ---
 echo "==> Linking config files..."
 "$DOTFILES_DIR/scripts/link.sh"
+
+# --- Services ---
+# Must run AFTER link.sh: borders and sketchybar read ~/.config/<name>/ at
+# launch, so starting them before the symlinks exist leaves them on built-in
+# defaults (e.g. a border that ignores the theme) until manually restarted.
+echo "==> Starting services..."
+brew services start borders 2>/dev/null || true
+brew services start sketchybar 2>/dev/null || true
 
 # --- iTerm2 color presets ---
 echo "==> Importing iTerm2 color presets..."

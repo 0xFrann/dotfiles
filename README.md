@@ -13,6 +13,7 @@
 | [iTerm2](https://iterm2.com)                           | Terminal with color scheme presets                              |
 | [Raycast](https://raycast.com)                         | Spotlight replacement with extensions and custom commands        |
 | [Spicetify](https://spicetify.app)                     | Spotify client customization (themes, extensions, marketplace)  |
+| [Claude Code](https://claude.com/claude-code)          | Status line showing model, context use, and plan limits         |
 
 ### Themes
 
@@ -110,6 +111,27 @@ If something goes wrong, the bar shows a short error instead of the event name:
 
 > **Workspace note:** A Google Workspace admin can block third-party OAuth clients until the app is allowlisted.
 
+## Claude Code status line
+
+`claude/statusline.sh` renders the line under the Claude Code prompt:
+
+```
+dotfiles ⎇ main · Opus 5 · ctx 23% · 5h ███░░░░░░░ 31% ↻2h14m · wk 84% ↻2d21h · $0.42
+```
+
+- **ctx** - share of the model's context window this conversation is using
+- **5h** - plan usage for the rolling 5-hour session window, with time until reset
+- **wk** - plan usage for the rolling 7-day window, with time until reset
+- **$** - cost of the current session
+
+Percentages turn yellow past 50% and red past 80%. The 5h/wk segments come from
+the plan limits Claude reports, so they only appear on subscription auth (with an
+API key there are no windows to show). Needs `jq`.
+
+`scripts/link.sh` merges `claude/settings.partial.json` into `~/.claude/settings.json`
+rather than symlinking it, because Claude Code writes to that file itself (theme,
+model, and other in-app settings would be lost).
+
 ## Development
 
 ### Docs
@@ -164,6 +186,9 @@ dotfiles/
 ├── DEV-SETUP.md              # Dev tooling list, install one-liner, GPG guide
 ├── zsh/.zshrc                # Linked to ~/.zshrc
 ├── git/                      # Linked to ~/.config/git (identity, ignore)
+├── claude/
+│   ├── statusline.sh          # Claude Code status line (usage + limits)
+│   └── settings.partial.json  # Merged into ~/.claude/settings.json by link.sh
 ├── scripts/
 │   ├── link.sh               # Symlink configs
 │   ├── switch-theme.sh       # Theme switcher
