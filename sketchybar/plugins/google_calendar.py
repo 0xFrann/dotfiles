@@ -213,10 +213,17 @@ def _api_error_from_http(e: HttpError, context: str) -> _CalendarAPIError:
     return _CalendarAPIError(f"⚠ API error ({status})", body)
 
 
+def _is_holiday_calendar(cal: dict) -> bool:
+    """Google's public holiday calendars (e.g. "Holidays in Argentina")."""
+    return (cal.get("id") or "").endswith("#holiday@group.v.calendar.google.com")
+
+
 def _fetch_events_today(
     service, local_tz: tzinfo, exclude: set[str],
     exclude_prefixes: list[str] | None = None,
-) -> list[tuple[datetime, datetime, str, bool]]:
+) -> tuple[list[tuple[datetime, datetime, str, bool]], list[str]]:
+    """Return (events, holiday_titles). Holidays are kept apart so they never
+    compete with real events for the label."""
     now = datetime.now(local_tz)
     day_start = datetime.combine(now.date(), datetime.min.time(), tzinfo=local_tz)
     day_end = day_start + timedelta(days=1)
@@ -224,6 +231,7 @@ def _fetch_events_today(
     time_max = day_end.isoformat()
 
     merged: list[tuple[datetime, datetime, str, bool]] = []
+    holidays: list[str] = []
 
     cal_page = None
     while True:
@@ -238,6 +246,7 @@ def _fetch_events_today(
             cal_id = cal.get("id")
             if not cal_id:
                 continue
+            is_holiday = _is_holiday_calendar(cal)
             ev_page = None
             while True:
                 try:
@@ -265,7 +274,11 @@ def _fetch_events_today(
                             title_lower = parsed[2].strip().lower()
                             if any(p in title_lower for p in exclude_prefixes):
                                 continue
-                        merged.append(parsed)
+                        if is_holiday:
+                            if parsed[2] not in holidays:
+                                holidays.append(parsed[2])
+                        else:
+                            merged.append(parsed)
                 ev_page = ev_res.get("nextPageToken")
                 if not ev_page:
                     break
@@ -273,12 +286,13 @@ def _fetch_events_today(
         if not cal_page:
             break
 
-    return merged
+    return merged, holidays
 
 
 def _pick_label(
     events: list[tuple[datetime, datetime, str, bool]],
     now: datetime,
+    holidays: list[str] | None = None,
 ) -> tuple[str, int | None]:
     """Return (label_text, remaining_count_today). count is None when no events."""
     local_tz = now.tzinfo
@@ -299,7 +313,14 @@ def _pick_label(
         candidates.append((start, end, title, _ad))
 
     if not candidates:
-        return "Enjoy your day ✨", None
+        label = "Enjoy your day ✨"
+        if holidays:
+            holiday = holidays[0].replace("\n", " ").replace("\t", " ").strip()
+            max_holiday = 44 - len(label) - 3
+            if len(holiday) > max_holiday:
+                holiday = holiday[: max_holiday - 1] + "…"
+            label += " · " + holiday
+        return label, None
 
     candidates.sort(key=lambda x: x[0])
 
@@ -350,8 +371,8 @@ def main() -> None:
     now = datetime.now(local_tz)
     try:
         service = build("calendar", "v3", credentials=creds, cache_discovery=False)
-        events = _fetch_events_today(service, local_tz, exclude, exclude_prefixes)
-        label, count = _pick_label(events, now)
+        events, holidays = _fetch_events_today(service, local_tz, exclude, exclude_prefixes)
+        label, count = _pick_label(events, now, holidays)
         if count is None:
             print(label, end="")
         else:
